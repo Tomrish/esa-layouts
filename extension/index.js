@@ -1,4 +1,5 @@
 "use strict";
+/* eslint-disable @typescript-eslint/no-var-requires */
 /* eslint-disable global-require */
 // This must go first so we can use module aliases!
 /* eslint-disable import/first */
@@ -31,10 +32,9 @@ module.exports = (nodecg) => {
     require('./text-to-speech');
     require('./twitch-ext');
     require('./music');
-    require('./obsn');
     // require('./twitch-subs');
     return {
-        // eslint-disable-next-line @typescript-eslint/no-var-requires
         obs: require('./util/obs').default,
+        setFaderName: require('./util/mixer').setFaderName,
     };
 };
