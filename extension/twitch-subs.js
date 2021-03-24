@@ -1,8 +1,12 @@
 "use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+const speedcontrol_util_1 = __importDefault(require("speedcontrol-util"));
 const nodecg_1 = require("./util/nodecg");
 const replicants_1 = require("./util/replicants");
-const { sendMessage } = nodecg_1.get().extensions['nodecg-speedcontrol'];
+const sc = new speedcontrol_util_1.default(nodecg_1.get());
 const refreshTime = 60 * 1000; // Update every 60s.
 async function updateSubscriptionStats() {
     try {
@@ -13,7 +17,7 @@ async function updateSubscriptionStats() {
         let nextPage = true;
         while (nextPage) {
             const endpoint = `/subscriptions?broadcaster_id=${replicants_1.twitchAPIData.value.channelID}&first=100`;
-            const resp = await sendMessage('twitchAPIRequest', {
+            const resp = await sc.sendMessage('twitchAPIRequest', {
                 method: 'get',
                 endpoint: `${endpoint}${cursor ? `&after=${cursor}` : ''}`,
                 data: null,
