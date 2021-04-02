@@ -12,6 +12,7 @@ const nodecg_1 = require("./util/nodecg");
 const obs_1 = __importDefault(require("./util/obs"));
 const replicants_1 = require("./util/replicants"); // eslint-disable-line object-curly-newline, max-len
 const cfg = nodecg_1.get().bundleConfig;
+const evtConfig = nodecg_1.get().bundleConfig.event;
 const obsConfig = nodecg_1.get().bundleConfig.obs;
 const sc = new speedcontrol_util_1.default(nodecg_1.get());
 const countdown = new extension_1.default(nodecg_1.get()); // eslint-disable-line @typescript-eslint/no-unused-vars
@@ -119,7 +120,7 @@ sc.runDataActiveRun.on('change', (newVal, oldVal) => {
     init = true;
 });
 replicants_1.capturePositions.on('change', async (val) => {
-    if (!val || !val['game-layout']) {
+    if ((evtConfig.online && evtConfig.online === 'partial') || !val || !val['game-layout']) {
         return;
     }
     for (const key of Object.keys(obsSourceKeys)) {

@@ -36,5 +36,6 @@ module.exports = (nodecg) => {
     return {
         obs: require('./util/obs').default,
         setFaderName: require('./mixer').setFaderName,
+        config: nodecg.bundleConfig,
     };
 };
