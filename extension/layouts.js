@@ -236,11 +236,13 @@ nodecg_1.get().listenFor('obsChangeScene', async (name) => {
             const delay = replicants_1.currentRunDelay.value.audio;
             replicants_1.obsData.value.disableTransitioning = true;
             replicants_1.obsData.value.transitionTimestamp = Date.now() + delay;
-            if (cfg.obsn.buffer <= 0) {
-                mixer_1.toggleLiveMics(name);
-            }
-            else {
-                setTimeout(() => { mixer_1.toggleLiveMics(name); }, cfg.obsn.buffer);
+            if (cfg.obsn.enable && cfg.x32.enable && cfg.event.online !== 'partial') {
+                if (cfg.obsn.buffer <= 0) {
+                    mixer_1.toggleLiveMics(name);
+                }
+                else {
+                    setTimeout(() => { mixer_1.toggleLiveMics(name); }, cfg.obsn.buffer);
+                }
             }
             setTimeout(async () => {
                 try {

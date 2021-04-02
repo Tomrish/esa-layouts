@@ -9,20 +9,19 @@ const nodecg_1 = require("./util/nodecg");
 const obs_1 = __importDefault(require("./util/obs"));
 const replicants_1 = require("./util/replicants");
 const x32_1 = __importDefault(require("./util/x32"));
-const obsConfig = nodecg_1.get().bundleConfig.obs;
-const config = nodecg_1.get().bundleConfig.x32;
+const config = nodecg_1.get().bundleConfig;
 function getNonGameScenes() {
     // These scenes will *not* have "LIVE Game/Mics" DCAs audible.
     return [
-        obs_1.default.findScene(obsConfig.names.scenes.commercials),
-        obs_1.default.findScene(obsConfig.names.scenes.intermission),
-        obs_1.default.findScene(obsConfig.names.scenes.videoPlayer),
-        obs_1.default.findScene(obsConfig.names.scenes.countdown),
+        obs_1.default.findScene(config.obs.names.scenes.commercials),
+        obs_1.default.findScene(config.obs.names.scenes.intermission),
+        obs_1.default.findScene(config.obs.names.scenes.videoPlayer),
+        obs_1.default.findScene(config.obs.names.scenes.countdown),
     ].filter(Boolean);
 }
 function setFaderName(fader, name) {
     var _a;
-    if (config.enable) {
+    if (config.x32.enable) {
         (_a = x32_1.default.conn) === null || _a === void 0 ? void 0 : _a.send({
             address: `${fader}/config/name`,
             args: [{ type: 's', value: name }],
@@ -70,12 +69,12 @@ function toggleLiveMics(scene) {
     }
 }
 exports.toggleLiveMics = toggleLiveMics;
-if (config.enable) {
+if (config.x32.enable && config.event.online !== 'partial') {
     obs_1.default.conn.on('TransitionBegin', async (data) => {
         const nonGameScenes = getNonGameScenes(); // These scenes will *not* have "LIVE" DCAs audible.
         const intermissionScenes = [
-            obs_1.default.findScene(obsConfig.names.scenes.commercials),
-            obs_1.default.findScene(obsConfig.names.scenes.intermission),
+            obs_1.default.findScene(config.obs.names.scenes.commercials),
+            obs_1.default.findScene(config.obs.names.scenes.intermission),
         ];
         toggleFadeHelper('/dca/1/fader', nonGameScenes, data);
         if (replicants_1.currentRunDelay.value.audio > 0) {
