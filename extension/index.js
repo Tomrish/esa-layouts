@@ -4,8 +4,8 @@
 // This must go first so we can use module aliases!
 /* eslint-disable import/first */
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-require('module-alias').addAlias('@', require('path').join(__dirname, '.'));
-const nodecg_1 = require("@/util/nodecg");
+require('module-alias').addAlias('@esa-layouts', require('path').join(__dirname, '.'));
+const nodecg_1 = require("./util/nodecg");
 module.exports = (nodecg) => {
     nodecg_1.set(nodecg);
     // If `thisEvent` is 2, checks if we actually have 2 event shorts to
