@@ -35,7 +35,7 @@ module.exports = (nodecg) => {
     // require('./twitch-subs');
     return {
         obs: require('./util/obs').default,
-        setFaderName: require('./mixer').setFaderName,
+        mixer: require('./mixer'),
         config: nodecg.bundleConfig,
     };
 };

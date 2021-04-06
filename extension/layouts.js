@@ -6,12 +6,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const extension_1 = __importDefault(require("@esamarathon/esa-layouts-shared/countdown/extension"));
 const clone_1 = __importDefault(require("clone"));
 const speedcontrol_util_1 = __importDefault(require("speedcontrol-util"));
-const mixer_1 = require("./mixer");
 const helpers_1 = require("./util/helpers");
 const nodecg_1 = require("./util/nodecg");
 const obs_1 = __importDefault(require("./util/obs"));
-const replicants_1 = require("./util/replicants"); // eslint-disable-line object-curly-newline, max-len
-const cfg = nodecg_1.get().bundleConfig;
+const replicants_1 = require("./util/replicants");
 const evtConfig = nodecg_1.get().bundleConfig.event;
 const obsConfig = nodecg_1.get().bundleConfig.obs;
 const sc = new speedcontrol_util_1.default(nodecg_1.get());
@@ -236,14 +234,7 @@ nodecg_1.get().listenFor('obsChangeScene', async (name) => {
             const delay = replicants_1.currentRunDelay.value.audio;
             replicants_1.obsData.value.disableTransitioning = true;
             replicants_1.obsData.value.transitionTimestamp = Date.now() + delay;
-            if (cfg.obsn.enable && cfg.x32.enable && cfg.event.online !== 'partial') {
-                if (cfg.obsn.buffer <= 0) {
-                    mixer_1.toggleLiveMics(name);
-                }
-                else {
-                    setTimeout(() => { mixer_1.toggleLiveMics(name); }, cfg.obsn.buffer);
-                }
-            }
+            nodecg_1.get().sendMessage('obsTransitionQueued', name); // Simple server-to-server message we need.
             setTimeout(async () => {
                 try {
                     await obs_1.default.changeScene(name);
