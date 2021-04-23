@@ -129,7 +129,9 @@ async function loginToTracker() {
         if (!isFirstLogin) {
             setTimeout(loginToTracker, 60 * 1000);
         }
-        throw new Error('Could not log in successfully');
+        else {
+            throw new Error('Could not log in successfully');
+        }
     }
 }
 async function setup() {
